@@ -8,9 +8,13 @@ import {
 } from "react-router-dom/cjs/react-router-dom.min";
 import Students from "./Student/Student";
 import UniversityHomepage from "./UniversityHomePage/UniversityHomePage";
-import AddStudent from "./Student/AddStudent";
-import { useSelector } from "react-redux";
-import Faculties from "./Faculty/Faculty";
+
+import Alumni from "./Alumni/Alumni";
+import Notifications from "./Notifications/Notifications";
+import Departments from "./Departments/Departments";
+import ClubsAndSocieties from "./ClubAndSocieties/ClubsAndSocieties";
+import { StudentRoutes } from "./Student/StudentRoutes";
+import { FacultyRoutes } from "./Faculty/FacultyRoutes";
 
 const Homepage = () => {
   return (
@@ -32,23 +36,20 @@ const Homepage = () => {
         </Col>
         <Col sm={9} md={10}>
           <Switch>
-            <Route path="/students/addStudent">
-              <AddStudent />
-            </Route>
             <Route path="/students">
-              <Students />
-            </Route>{" "}
+              <StudentRoutes />
+            </Route>
             <Route path="/faculties">
-              <Faculties />
+              <FacultyRoutes />
             </Route>{" "}
             <Route path="/alumnis">
-              <Students />
+              <Alumni />
             </Route>{" "}
             <Route path="/eventAndNotices">
-              <Students />
+              <Notifications />
             </Route>{" "}
             <Route path="/clubAndSocieties">
-              <Students />
+              <ClubsAndSocieties />
             </Route>{" "}
             <Route path="/homePage">
               <UniversityHomepage />
@@ -57,7 +58,7 @@ const Homepage = () => {
               <Students />
             </Route>{" "}
             <Route path="/departments">
-              <Students />
+              <Departments />
             </Route>{" "}
             <Route path="/admins">
               <Students />

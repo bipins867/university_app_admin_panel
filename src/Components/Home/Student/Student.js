@@ -1,20 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Container, Table, Button, Form, Row, Col } from "react-bootstrap";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
-import { getAllStudents } from "../controller_user";
 
-const Students = () => {
-  const [students, setStudents] = useState([]);
-
-  useEffect(() => {
-    getAllStudents()
-      .then((result) => {
-        setStudents(result.students);
-      })
-      .catch((e) => {
-        alert(e);
-      });
-  }, []);
+const Students = (props) => {
+  const students = props.students;
+  const setCurrentStudent = props.setCurrentStudent;
 
   // Handle form submission to add new student
   const handleAddStudent = () => {};
@@ -56,12 +46,20 @@ const Students = () => {
               <td>{student.email}</td>
               <td>{student.yearOfJoining}</td>
               <td>
-                <Button variant="secondary" size="sm" className="me-2">
+                <NavLink
+                  to="/students/viewStudent"
+                  className="btn btn-secondary"
+                  onClick={() => setCurrentStudent(student)}
+                >
                   View
-                </Button>
-                <Button variant="primary" size="sm" className="me-2">
+                </NavLink>
+                <NavLink
+                  to="/students/editStudent"
+                  className="btn btn-primary"
+                  onClick={() => setCurrentStudent(student)}
+                >
                   Edit
-                </Button>
+                </NavLink>
                 <Button
                   variant="danger"
                   size="sm"

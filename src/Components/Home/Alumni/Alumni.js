@@ -1,22 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { Container, Table, Button, Form, Row, Col } from "react-bootstrap";
-import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
-import { getAllFaculties } from "../controller"; // Assuming you have a function to fetch faculties
+import { NavLink } from "react-router-dom";
+import { getAllAlumni } from "../controller"; // Assuming you have a function to fetch alumni
 
-const Faculties = (props) => {
-  const faculties = props.faculties;
-  // Handle form submission to add new faculty
-  const handleAddFaculty = () => {};
+const Alumni = () => {
+  const [alumni, setAlumni] = useState([]);
 
-  // Handle deletion of faculty
-  const handleDeleteFaculty = (id) => {};
+  useEffect(() => {
+    getAllAlumni()
+      .then((result) => {
+        setAlumni(result.alumnis);
+      })
+      .catch((e) => {
+        alert(e);
+      });
+  }, []);
+
+  // Handle form submission to add new alumni
+  const handleAddAlumni = () => {};
+
+  // Handle deletion of alumni
+  const handleDeleteAlumni = (id) => {};
 
   // Handle search term change
   const handleSearchTermChange = (e) => {};
 
   return (
     <Container className="mt-5">
-      <h2>Faculties</h2>
+      <h2>Alumni</h2>
       <Row className="mb-3">
         <Col>
           <Form.Control
@@ -32,20 +43,17 @@ const Faculties = (props) => {
             <th>ID</th>
             <th>Name</th>
             <th>Email</th>
-            <th>Designation</th>
-            <th>Date of Joining</th>
+            <th>Year Of Passing</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {faculties.map((faculty) => (
-            <tr key={faculty.id}>
-              <td>{faculty.id}</td>
-              <td>{faculty.name}</td>
-              <td>{faculty.email}</td>
-              <td>{faculty.designation}</td>
-              <td>{faculty.dateOfJoining}</td>
-
+          {alumni.map((alumnus) => (
+            <tr key={alumnus.id}>
+              <td>{alumnus.id}</td>
+              <td>{alumnus.name}</td>
+              <td>{alumnus.email}</td>
+              <td>{alumnus.yearOfPassing}</td>
               <td>
                 <Button variant="secondary" size="sm" className="me-2">
                   View
@@ -56,7 +64,7 @@ const Faculties = (props) => {
                 <Button
                   variant="danger"
                   size="sm"
-                  onClick={() => handleDeleteFaculty(faculty.id)}
+                  onClick={() => handleDeleteAlumni(alumnus.id)}
                 >
                   Delete
                 </Button>
@@ -66,11 +74,11 @@ const Faculties = (props) => {
         </tbody>
       </Table>
 
-      <NavLink to="/faculties/addFaculty" className="btn btn-primary">
-        Add Faculty
+      <NavLink to="/alumni/addAlumni" className="btn btn-primary">
+        Add Alumni
       </NavLink>
     </Container>
   );
 };
 
-export default Faculties;
+export default Alumni;
