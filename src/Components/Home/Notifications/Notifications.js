@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Container, Table, Button } from "react-bootstrap";
 import { getAllNotifications } from "../controller";
+import { NavLink, useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import globalController from "../../GlobalController";
+import { useSelector } from "react-redux";
 // Assuming you have a function to fetch notifications
 
-const Notifications = () => {
+const Notifications = (props) => {
+  const history = useHistory();
+  const token = useSelector((state) => state.auth.token);
+  const setCurrentNotifiction = props.setCurrentNotifiction;
+
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
@@ -12,13 +19,25 @@ const Notifications = () => {
         setNotifications(result.notifications);
       })
       .catch((e) => {
-        console.error("Error fetching notifications:", e);
+        alert(e);
       });
   }, []);
-
   // Handle deletion of notification
   const handleDeleteNotification = (id) => {
-    // Add logic to delete notification
+    globalController
+      .postData(
+        "notifications/delete/notification",
+        { notificationId: id },
+        token
+      )
+      .then((response) => {
+        alert("Notification deleted!");
+        history.push("/notifications");
+      })
+      .catch((e) => {
+        alert(e);
+        console.log(e);
+      });
   };
 
   return (
@@ -44,9 +63,13 @@ const Notifications = () => {
               <td>{notification.createrName}</td>
               <td>{notification.createrDesignation}</td>
               <td>
-                <Button variant="secondary" size="sm" className="me-2">
+                <NavLink
+                  to="/notifications/viewNotification"
+                  className="btn btn-secondary"
+                  onClick={() => setCurrentNotifiction(notification)}
+                >
                   View
-                </Button>
+                </NavLink>
                 <Button
                   variant="danger"
                   size="sm"
@@ -59,6 +82,9 @@ const Notifications = () => {
           ))}
         </tbody>
       </Table>
+      <NavLink to="/notifications/addNotification" className="btn btn-primary">
+        Send Global Notification
+      </NavLink>
     </Container>
   );
 };

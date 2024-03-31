@@ -1,10 +1,8 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
-const ViewStudent = (props) => {
-  // Placeholder values for user profile
-  const userProfile = props.currentStudent;
-
+const ViewAlumni = ({ currentAlumni }) => {
+  const userProfile = currentAlumni;
   return (
     <Container className="mt-5">
       <h2>User Profile</h2>
@@ -20,17 +18,17 @@ const ViewStudent = (props) => {
       </Row>
       <Row className="mb-3">
         <Col>
-          <strong>Father's Name:</strong> {userProfile.fathersName}
-        </Col>
-      </Row>
-      <Row className="mb-3">
-        <Col>
           <strong>Email:</strong> {userProfile.email}
         </Col>
       </Row>
       <Row className="mb-3">
         <Col>
-          <strong>Year of Joining:</strong> {userProfile.yearOfJoining}
+          <strong>Current Affiliation:</strong> {userProfile.currentAffiliation}
+        </Col>
+      </Row>
+      <Row className="mb-3">
+        <Col>
+          <strong>Year of Passing:</strong> {userProfile.yearOfPassing}
         </Col>
       </Row>
       <Row className="mb-3">
@@ -47,4 +45,4 @@ const ViewStudent = (props) => {
   );
 };
 
-export default ViewStudent;
+export default ViewAlumni;

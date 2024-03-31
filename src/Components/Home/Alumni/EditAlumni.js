@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { updateInfo, updateStudentInfo } from "../updateController";
+import { updateAlumniInfo, updateInfo } from "../updateController";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-const EditStudent = ({ currentStudent }) => {
+const EditAlumni = ({ currentAlumni }) => {
   const history = useHistory();
   const token = useSelector((state) => state.auth.token);
-  const [editedProfile, setEditedProfile] = useState(currentStudent);
+  const [editedProfile, setEditedProfile] = useState(currentAlumni);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -16,13 +16,14 @@ const EditStudent = ({ currentStudent }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateInfo("user/update/studentInfo", { studentInfo: editedProfile }, token)
+    updateInfo("user/update/alumniInfo", { alumniInfo: editedProfile }, token)
       .then((response) => {
-        alert("Student Info Updated!");
-        history.push("/students");
+        alert("Alumni Info Updated!");
+        history.push("/alumnis");
       })
       .catch((err) => {
-        alert(err.error);
+        console.log(err);
+        alert(err);
       });
   };
 
@@ -49,15 +50,6 @@ const EditStudent = ({ currentStudent }) => {
           />
         </Form.Group>
         <Form.Group className="mb-3">
-          <Form.Label>Father's Name</Form.Label>
-          <Form.Control
-            type="text"
-            name="fathersName"
-            value={editedProfile.fathersName}
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
           <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
@@ -67,20 +59,20 @@ const EditStudent = ({ currentStudent }) => {
           />
         </Form.Group>
         <Form.Group className="mb-3">
-          <Form.Label>Year of Joining</Form.Label>
+          <Form.Label>Current Affiliation</Form.Label>
           <Form.Control
             type="text"
-            name="yearOfJoining"
-            value={editedProfile.yearOfJoining}
+            name="currentAffiliation"
+            value={editedProfile.currentAffiliation}
             onChange={handleChange}
           />
-        </Form.Group>{" "}
+        </Form.Group>
         <Form.Group className="mb-3">
-          <Form.Label>Is Admin</Form.Label>
+          <Form.Label>Year of Passing</Form.Label>
           <Form.Control
             type="text"
-            name="isAdmin"
-            value={editedProfile.isAdmin}
+            name="yearOfPassing"
+            value={editedProfile.yearOfPassing}
             onChange={handleChange}
           />
         </Form.Group>
@@ -110,4 +102,4 @@ const EditStudent = ({ currentStudent }) => {
   );
 };
 
-export default EditStudent;
+export default EditAlumni;

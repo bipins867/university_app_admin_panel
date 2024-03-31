@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Container, Table, Button } from "react-bootstrap";
 import { getAllDepartments } from "../controller"; // Assuming you have a function to fetch departments
+import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 
-const Departments = () => {
+const Departments = (props) => {
+  const setCurrentDepartment = props.setCurrentDepartment;
+
   const [departments, setDepartments] = useState([]);
 
   useEffect(() => {
@@ -11,11 +14,9 @@ const Departments = () => {
         setDepartments(result.departments);
       })
       .catch((e) => {
-        console.error("Error fetching departments:", e);
+        alert(e);
       });
   }, []);
-
-  // Handle deletion of department
   const handleDeleteDepartment = (id) => {
     // Add logic to delete department
   };
@@ -41,24 +42,28 @@ const Departments = () => {
               <td>{department.subTitle}</td>
               <td>{department.hodId}</td>
               <td>
-                <Button variant="secondary" size="sm" className="me-2">
-                  View
-                </Button>
-                <Button variant="primary" size="sm" className="me-2">
-                  Edit
-                </Button>
-                <Button
-                  variant="danger"
-                  size="sm"
-                  onClick={() => handleDeleteDepartment(department.id)}
+                <NavLink
+                  to="/departments/viewDepartment"
+                  className="btn btn-secondary"
+                  onClick={() => setCurrentDepartment(department)}
                 >
-                  Delete
-                </Button>
+                  View
+                </NavLink>
+                <NavLink
+                  to="/departments/editDepartment"
+                  className="btn btn-primary"
+                  onClick={() => setCurrentDepartment(department)}
+                >
+                  Edit
+                </NavLink>
               </td>
             </tr>
           ))}
         </tbody>
       </Table>
+      <NavLink to="/departments/addDepartment" className="btn btn-primary">
+        Add Department
+      </NavLink>
     </Container>
   );
 };

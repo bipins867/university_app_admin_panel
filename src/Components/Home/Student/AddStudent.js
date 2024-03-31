@@ -33,7 +33,6 @@ const AddStudent = () => {
     GlobalController.postData("user/create/student", formData, {})
       .then((data) => {
         history.push("/students");
-        console.log(data);
       })
       .catch((err) => {
         console.log(err);

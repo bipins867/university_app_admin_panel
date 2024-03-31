@@ -6,29 +6,28 @@ import {
 
 import { useEffect, useState } from "react";
 
-import { getAllFaculties } from "../controller";
 import Faculties from "./Faculty";
+import ViewFaculty from "./ViewFaculty";
+import EditFaculty from "./EditFaculty";
+import AddFaculty from "./AddFaculty";
 
 export const FacultyRoutes = (props) => {
   const [currentFaculty, setCurrentFaculty] = useState();
 
-  const [faculties, setFaculties] = useState([]);
-  console.log("Are you leasioning me");
-  useEffect(() => {
-    getAllFaculties()
-      .then((result) => {
-        setFaculties(result.faculties);
-      })
-      .catch((e) => {
-        alert(e);
-      });
-  }, []);
-
   return (
     <>
       <Switch>
+        <Route path="/faculties/addFaculty">
+          <AddFaculty />
+        </Route>
+        <Route path="/faculties/viewFaculty">
+          <ViewFaculty currentFaculty={currentFaculty} />
+        </Route>
+        <Route path="/faculties/editFaculty">
+          <EditFaculty currentFaculty={currentFaculty} />
+        </Route>
         <Route path="/faculties">
-          <Faculties faculties={faculties} />
+          <Faculties setCurrentFaculty={setCurrentFaculty} />
         </Route>
         <Route path="/faculties/*">
           <Redirect to="/faculties" />

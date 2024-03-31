@@ -7,23 +7,12 @@ import AddStudent from "./AddStudent";
 import Students from "./Student";
 import ViewStudent from "./ViewStudent";
 
-import { getAllStudents } from "../controller";
 import { useEffect, useState } from "react";
 import EditStudent from "./EditStudent";
 
 export const StudentRoutes = (props) => {
-  const [students, setStudents] = useState([]);
   const [currentStudent, setCurrentStudent] = useState();
 
-  useEffect(() => {
-    getAllStudents()
-      .then((result) => {
-        setStudents(result.students);
-      })
-      .catch((e) => {
-        alert(e);
-      });
-  }, []);
   return (
     <>
       <Switch>
@@ -37,7 +26,7 @@ export const StudentRoutes = (props) => {
           <EditStudent currentStudent={currentStudent} />
         </Route>
         <Route path="/students/">
-          <Students students={students} setCurrentStudent={setCurrentStudent} />
+          <Students setCurrentStudent={setCurrentStudent} />
         </Route>
         <Route path="/students/*">
           <Redirect to="/students" />

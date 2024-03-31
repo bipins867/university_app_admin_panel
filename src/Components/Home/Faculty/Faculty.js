@@ -1,10 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Container, Table, Button, Form, Row, Col } from "react-bootstrap";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
-import { getAllFaculties } from "../controller"; // Assuming you have a function to fetch faculties
+import { getAllFaculties } from "../controller";
 
 const Faculties = (props) => {
-  const faculties = props.faculties;
+  const setCurrentFaculty = props.setCurrentFaculty;
+  const [faculties, setFaculties] = useState([]);
+
+  useEffect(() => {
+    getAllFaculties()
+      .then((result) => {
+        setFaculties(result.faculties);
+      })
+      .catch((e) => {
+        alert(e);
+      });
+  }, []);
+
   // Handle form submission to add new faculty
   const handleAddFaculty = () => {};
 
@@ -47,19 +59,20 @@ const Faculties = (props) => {
               <td>{faculty.dateOfJoining}</td>
 
               <td>
-                <Button variant="secondary" size="sm" className="me-2">
-                  View
-                </Button>
-                <Button variant="primary" size="sm" className="me-2">
-                  Edit
-                </Button>
-                <Button
-                  variant="danger"
-                  size="sm"
-                  onClick={() => handleDeleteFaculty(faculty.id)}
+                <NavLink
+                  to="/faculties/viewFaculty"
+                  className="btn btn-secondary"
+                  onClick={() => setCurrentFaculty(faculty)}
                 >
-                  Delete
-                </Button>
+                  View
+                </NavLink>
+                <NavLink
+                  to="/faculties/editFaculty"
+                  className="btn btn-primary"
+                  onClick={() => setCurrentFaculty(faculty)}
+                >
+                  Edit
+                </NavLink>
               </td>
             </tr>
           ))}

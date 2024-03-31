@@ -8,13 +8,13 @@ import {
 } from "react-router-dom/cjs/react-router-dom.min";
 import Students from "./Student/Student";
 import UniversityHomepage from "./UniversityHomePage/UniversityHomePage";
-
-import Alumni from "./Alumni/Alumni";
-import Notifications from "./Notifications/Notifications";
-import Departments from "./Departments/Departments";
-import ClubsAndSocieties from "./ClubAndSocieties/ClubsAndSocieties";
 import { StudentRoutes } from "./Student/StudentRoutes";
 import { FacultyRoutes } from "./Faculty/FacultyRoutes";
+import { AlumniRoutes } from "./Alumni/AlumniRoutes";
+import { NotificationRoutes } from "./Notifications/NotificationRoute";
+import { ClubAndSocietyRoutes } from "./ClubAndSocieties/ClubAndSocietyRoutes";
+import { DepartmentRoutes } from "./Departments/DepartmentRoutes";
+import { CourseRoutes } from "./Course/CourseRoutes";
 
 const Homepage = () => {
   return (
@@ -25,13 +25,10 @@ const Homepage = () => {
             <NavLink to="/students">Students</NavLink>
             <NavLink to="/faculties">Faculty</NavLink>
             <NavLink to="/alumnis">Alumni</NavLink>
-            <NavLink to="/eventAndNotices">Event & Noticice</NavLink>
+            <NavLink to="/notifications">Event & Noticice</NavLink>
             <NavLink to="/clubAndSocieties">Clubs & Societies</NavLink>
-            <NavLink to="/homePage">University Homepage</NavLink>
-            <NavLink to="/aboutPage">About the University</NavLink>
+            <NavLink to="/courses">Course</NavLink>
             <NavLink to="/departments">Departments</NavLink>
-            <br />
-            <NavLink to="/admins">Admins</NavLink>
           </Nav>
         </Col>
         <Col sm={9} md={10}>
@@ -43,25 +40,19 @@ const Homepage = () => {
               <FacultyRoutes />
             </Route>{" "}
             <Route path="/alumnis">
-              <Alumni />
+              <AlumniRoutes />
             </Route>{" "}
-            <Route path="/eventAndNotices">
-              <Notifications />
+            <Route path="/notifications">
+              <NotificationRoutes />
             </Route>{" "}
             <Route path="/clubAndSocieties">
-              <ClubsAndSocieties />
-            </Route>{" "}
-            <Route path="/homePage">
-              <UniversityHomepage />
-            </Route>{" "}
-            <Route path="/aboutPage">
-              <Students />
+              <ClubAndSocietyRoutes />
             </Route>{" "}
             <Route path="/departments">
-              <Departments />
-            </Route>{" "}
-            <Route path="/admins">
-              <Students />
+              <DepartmentRoutes />
+            </Route>
+            <Route path="/courses">
+              <CourseRoutes />
             </Route>
             <Route path="/*">
               <Redirect to="/homePage" />

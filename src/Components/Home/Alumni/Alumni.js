@@ -1,20 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Container, Table, Button, Form, Row, Col } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import { getAllAlumni } from "../controller"; // Assuming you have a function to fetch alumni
+import { getAllAlumni } from "../controller";
 
-const Alumni = () => {
-  const [alumni, setAlumni] = useState([]);
+const Alumni = (props) => {
+  const [alumnis, setAlumnis] = useState([]);
 
-  useEffect(() => {
-    getAllAlumni()
-      .then((result) => {
-        setAlumni(result.alumnis);
-      })
-      .catch((e) => {
-        alert(e);
-      });
-  }, []);
+  const setCurrentAlumni = props.setCurrentAlumni;
 
   // Handle form submission to add new alumni
   const handleAddAlumni = () => {};
@@ -24,7 +16,15 @@ const Alumni = () => {
 
   // Handle search term change
   const handleSearchTermChange = (e) => {};
-
+  useEffect(() => {
+    getAllAlumni()
+      .then((result) => {
+        setAlumnis(result.alumnis);
+      })
+      .catch((e) => {
+        alert(e);
+      });
+  }, []);
   return (
     <Container className="mt-5">
       <h2>Alumni</h2>
@@ -48,33 +48,34 @@ const Alumni = () => {
           </tr>
         </thead>
         <tbody>
-          {alumni.map((alumnus) => (
+          {alumnis.map((alumnus) => (
             <tr key={alumnus.id}>
               <td>{alumnus.id}</td>
               <td>{alumnus.name}</td>
               <td>{alumnus.email}</td>
               <td>{alumnus.yearOfPassing}</td>
               <td>
-                <Button variant="secondary" size="sm" className="me-2">
-                  View
-                </Button>
-                <Button variant="primary" size="sm" className="me-2">
-                  Edit
-                </Button>
-                <Button
-                  variant="danger"
-                  size="sm"
-                  onClick={() => handleDeleteAlumni(alumnus.id)}
+                <NavLink
+                  to="/alumnis/viewAlumni"
+                  className="btn btn-secondary"
+                  onClick={() => setCurrentAlumni(alumnus)}
                 >
-                  Delete
-                </Button>
+                  View
+                </NavLink>
+                <NavLink
+                  to="/alumnis/editAlumni"
+                  className="btn btn-primary"
+                  onClick={() => setCurrentAlumni(alumnus)}
+                >
+                  Edit
+                </NavLink>
               </td>
             </tr>
           ))}
         </tbody>
       </Table>
 
-      <NavLink to="/alumni/addAlumni" className="btn btn-primary">
+      <NavLink to="/alumnis/addAlumni" className="btn btn-primary">
         Add Alumni
       </NavLink>
     </Container>

@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Container, Table, Button } from "react-bootstrap";
 import { getAllClubsAndSocieties } from "../controller"; // Assuming you have a function to fetch clubs and societies
+import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 
-const ClubsAndSocieties = () => {
-  const [clubsAndSocieties, setClubsAndSocieties] = useState([]);
+const ClubsAndSocieties = (props) => {
+  const setCurrentClubAndSociety = props.setCurrentClubAndSociety;
+  // Handle deletion of club/society
+  const [clubAndSocieties, setClubAndSocieties] = useState([]);
 
   useEffect(() => {
     getAllClubsAndSocieties()
       .then((result) => {
-        setClubsAndSocieties(result.clubAndSocieties);
+        setClubAndSocieties(result.clubAndSocieties);
       })
       .catch((e) => {
-        console.error("Error fetching clubs and societies:", e);
+        alert(e);
       });
   }, []);
-
-  // Handle deletion of club/society
   const handleDeleteClubOrSociety = (id) => {
     // Add logic to delete club or society
   };
@@ -34,31 +35,38 @@ const ClubsAndSocieties = () => {
           </tr>
         </thead>
         <tbody>
-          {clubsAndSocieties.map((clubOrSociety) => (
+          {clubAndSocieties.map((clubOrSociety) => (
             <tr key={clubOrSociety.id}>
               <td>{clubOrSociety.id}</td>
               <td>{clubOrSociety.title}</td>
               <td>{clubOrSociety.subTitle}</td>
               <td>{clubOrSociety.noOfYears}</td>
               <td>
-                <Button variant="secondary" size="sm" className="me-2">
-                  View
-                </Button>
-                <Button variant="primary" size="sm" className="me-2">
-                  Edit
-                </Button>
-                <Button
-                  variant="danger"
-                  size="sm"
-                  onClick={() => handleDeleteClubOrSociety(clubOrSociety.id)}
+                <NavLink
+                  to="/clubAndSocieties/viewClubAndSociety"
+                  className="btn btn-secondary"
+                  onClick={() => setCurrentClubAndSociety(clubOrSociety)}
                 >
-                  Delete
-                </Button>
+                  View
+                </NavLink>
+                <NavLink
+                  to="/clubAndSocieties/editClubAndSociety"
+                  className="btn btn-primary"
+                  onClick={() => setCurrentClubAndSociety(clubOrSociety)}
+                >
+                  Edit
+                </NavLink>
               </td>
             </tr>
           ))}
         </tbody>
       </Table>
+      <NavLink
+        to="/clubAndSocieties/addClubAndSociety"
+        className="btn btn-primary"
+      >
+        Add Club & Society
+      </NavLink>
     </Container>
   );
 };

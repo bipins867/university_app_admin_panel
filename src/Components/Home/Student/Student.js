@@ -2,10 +2,20 @@ import React, { useEffect, useState } from "react";
 import { Container, Table, Button, Form, Row, Col } from "react-bootstrap";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 
+import { getAllStudents } from "../controller";
 const Students = (props) => {
-  const students = props.students;
+  const [students, setStudents] = useState([]);
   const setCurrentStudent = props.setCurrentStudent;
 
+  useEffect(() => {
+    getAllStudents()
+      .then((result) => {
+        setStudents(result.students);
+      })
+      .catch((e) => {
+        alert(e);
+      });
+  }, []);
   // Handle form submission to add new student
   const handleAddStudent = () => {};
 
@@ -60,13 +70,6 @@ const Students = (props) => {
                 >
                   Edit
                 </NavLink>
-                <Button
-                  variant="danger"
-                  size="sm"
-                  onClick={() => handleDeleteStudent(student.id)}
-                >
-                  Delete
-                </Button>
               </td>
             </tr>
           ))}
