@@ -131,6 +131,7 @@ const SubjectPage = ({ basePath, subject, setCurrentPdf }) => {
             value={pdfData.title}
             onChange={handleChange}
             placeholder="Enter title"
+            required
           />
         </Form.Group>
         <Form.Group className="mb-3">
@@ -141,6 +142,7 @@ const SubjectPage = ({ basePath, subject, setCurrentPdf }) => {
             value={pdfData.subTitle}
             onChange={handleChange}
             placeholder="Enter subtitle"
+            required
           />
         </Form.Group>
         <Form.Group className="mb-3">
