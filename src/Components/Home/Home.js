@@ -15,6 +15,7 @@ import { NotificationRoutes } from "./Notifications/NotificationRoute";
 import { ClubAndSocietyRoutes } from "./ClubAndSocieties/ClubAndSocietyRoutes";
 import { DepartmentRoutes } from "./Departments/DepartmentRoutes";
 import { CourseRoutes } from "./Course/CourseRoutes";
+import HomePage from "./Home/Home";
 
 const Homepage = () => {
   return (
@@ -22,6 +23,7 @@ const Homepage = () => {
       <Row>
         <Col sm={3} md={2} className="bg-light">
           <Nav className="flex-column">
+            <NavLink to="/home">Home</NavLink>
             <NavLink to="/students">Students</NavLink>
             <NavLink to="/faculties">Faculty</NavLink>
             <NavLink to="/alumnis">Alumni</NavLink>
@@ -33,6 +35,9 @@ const Homepage = () => {
         </Col>
         <Col sm={9} md={10}>
           <Switch>
+            <Route path="/home">
+              <HomePage />
+            </Route>
             <Route path="/students">
               <StudentRoutes />
             </Route>
@@ -55,7 +60,7 @@ const Homepage = () => {
               <CourseRoutes />
             </Route>
             <Route path="/*">
-              <Redirect to="/homePage" />
+              <Redirect to="/home" />
             </Route>
           </Switch>
         </Col>

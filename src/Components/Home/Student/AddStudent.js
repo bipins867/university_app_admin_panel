@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
-import GlobalController from "../../GlobalController";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import globalController from "../../GlobalController";
 
 const AddStudent = () => {
   // State variables for form fields
@@ -16,6 +16,7 @@ const AddStudent = () => {
     phone: "",
     address: "",
     courseId: "",
+    profilePic: null,
   });
 
   // Function to handle input changes
@@ -24,13 +25,20 @@ const AddStudent = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleFileChange = (e) => {
+    setFormData({ ...formData, profilePic: e.target.files[0] });
+  };
   // Function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    const fileFormData = new FormData();
 
-    const data = { ...formData, profilePic: "" };
+    for (const key in formData) {
+      fileFormData.append(key, formData[key]);
+    }
 
-    GlobalController.postData("user/create/student", formData, {})
+    globalController
+      .postData("user/create/student", fileFormData, {})
       .then((data) => {
         history.push("/students");
       })
@@ -148,6 +156,17 @@ const AddStudent = () => {
             value={formData.address}
             onChange={handleInputChange}
             required
+          />
+        </Form.Group>
+        <Form.Group controlId="profilePic">
+          <Form.Label>Profile Picture</Form.Label>
+          <Form.Control
+            type="file"
+            id="custom-file"
+            label="Choose file"
+            name="profilePic"
+            onChange={handleFileChange}
+            custom
           />
         </Form.Group>
 

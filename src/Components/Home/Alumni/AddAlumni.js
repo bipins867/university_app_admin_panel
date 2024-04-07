@@ -6,8 +6,13 @@ import globalController from "../../GlobalController";
 const AddAlumni = () => {
   const history = useHistory();
   const onAdd = (info) => {
+    const fileFormData = new FormData();
+
+    for (const key in info) {
+      fileFormData.append(key, info[key]);
+    }
     globalController
-      .postData("user/create/alumni", info, {})
+      .postData("user/create/alumni", fileFormData, {})
       .then((data) => {
         history.push("/alumnis");
       })
@@ -27,8 +32,12 @@ const AddAlumni = () => {
     email: "",
     phone: "",
     address: "",
+    profilePic: null,
   });
 
+  const handleFileChange = (e) => {
+    setAlumniData({ ...alumniData, profilePic: e.target.files[0] });
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setAlumniData({ ...alumniData, [name]: value });
@@ -134,6 +143,17 @@ const AddAlumni = () => {
             name="address"
             value={alumniData.address}
             onChange={handleChange}
+          />
+        </Form.Group>
+        <Form.Group controlId="profilePic">
+          <Form.Label>Profile Picture</Form.Label>
+          <Form.Control
+            type="file"
+            id="custom-file"
+            label="Choose file"
+            name="profilePic"
+            onChange={handleFileChange}
+            custom
           />
         </Form.Group>
         <Button variant="primary" type="submit">

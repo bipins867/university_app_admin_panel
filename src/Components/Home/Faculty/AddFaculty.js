@@ -6,8 +6,14 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 const AddFaculty = () => {
   const history = useHistory();
   const onAdd = (info) => {
+    const fileFormData = new FormData();
+
+    for (const key in info) {
+      fileFormData.append(key, info[key]);
+    }
+
     globalController
-      .postData("user/create/faculty", info, {})
+      .postData("user/create/faculty", fileFormData, {})
       .then((data) => {
         history.push("/faculties");
       })
@@ -25,7 +31,11 @@ const AddFaculty = () => {
     designation: "",
     dateOfJoining: "",
     phone: "",
+    profilePic: null,
   });
+  const handleFileChange = (e) => {
+    setFacultyData({ ...facultyData, profilePic: e.target.files[0] });
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -132,6 +142,17 @@ const AddFaculty = () => {
             name="phone"
             value={facultyData.phone}
             onChange={handleChange}
+          />
+        </Form.Group>
+        <Form.Group controlId="profilePic">
+          <Form.Label>Profile Picture</Form.Label>
+          <Form.Control
+            type="file"
+            id="custom-file"
+            label="Choose file"
+            name="profilePic"
+            onChange={handleFileChange}
+            custom
           />
         </Form.Group>
         <Button variant="primary" type="submit">

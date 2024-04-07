@@ -6,8 +6,13 @@ import globalController from "../../GlobalController";
 const AddDepartment = () => {
   const history = useHistory();
   const onAdd = (info) => {
+    const fileFormData = new FormData();
+
+    for (const key in info) {
+      fileFormData.append(key, info[key]);
+    }
     globalController
-      .postData("department/create/department", info, {})
+      .postData("department/create/department", fileFormData, {})
       .then((data) => {
         history.push("/departments");
       })
@@ -21,7 +26,9 @@ const AddDepartment = () => {
     subTitle: "",
     about: "",
   });
-
+  const handleFileChange = (e) => {
+    setDepartmentData({ ...departmentData, imageUrl: e.target.files[0] });
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setDepartmentData({ ...departmentData, [name]: value });
@@ -35,6 +42,7 @@ const AddDepartment = () => {
       title: "",
       subTitle: "",
       about: "",
+      imageUrl: null,
     });
   };
 
@@ -67,6 +75,17 @@ const AddDepartment = () => {
             name="about"
             value={departmentData.about}
             onChange={handleChange}
+          />
+        </Form.Group>
+        <Form.Group controlId="profilePic">
+          <Form.Label>Profile Picture</Form.Label>
+          <Form.Control
+            type="file"
+            id="custom-file"
+            label="Choose file"
+            name="profilePic"
+            onChange={handleFileChange}
+            custom
           />
         </Form.Group>
         <Button variant="primary" type="submit">

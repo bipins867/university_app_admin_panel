@@ -6,8 +6,13 @@ import globalController from "../../GlobalController";
 const AddClubAndSociety = () => {
   const history = useHistory();
   const onAdd = (info) => {
+    const fileFormData = new FormData();
+
+    for (const key in info) {
+      fileFormData.append(key, info[key]);
+    }
     globalController
-      .postData("clubAndSociety/create/clubAndSociety", info, {})
+      .postData("clubAndSociety/create/clubAndSociety", fileFormData, {})
       .then((data) => {
         history.push("/clubAndSocieties");
       })
@@ -22,7 +27,9 @@ const AddClubAndSociety = () => {
     about: "",
     noOfYears: "",
   });
-
+  const handleFileChange = (e) => {
+    setClubSocietyData({ ...clubSocietyData, profilePic: e.target.files[0] });
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setClubSocietyData({ ...clubSocietyData, [name]: value });
@@ -37,6 +44,7 @@ const AddClubAndSociety = () => {
       subTitle: "",
       about: "",
       noOfYears: "",
+      profilePic: null,
     });
   };
 
@@ -78,6 +86,17 @@ const AddClubAndSociety = () => {
             name="noOfYears"
             value={clubSocietyData.noOfYears}
             onChange={handleChange}
+          />
+        </Form.Group>
+        <Form.Group controlId="profilePic">
+          <Form.Label>Background Picture</Form.Label>
+          <Form.Control
+            type="file"
+            id="custom-file"
+            label="Choose file"
+            name="profilePic"
+            onChange={handleFileChange}
+            custom
           />
         </Form.Group>
         <Button variant="primary" type="submit">

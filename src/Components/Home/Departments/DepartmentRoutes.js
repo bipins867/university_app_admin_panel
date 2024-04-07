@@ -22,7 +22,7 @@ export const DepartmentRoutes = (props) => {
           <AddDepartment />
         </Route>
         <Route path="/departments/viewDepartment">
-          <ViewDepartment currentDepartment={currentDepartment} />
+          <ViewDepartment department={currentDepartment} />
         </Route>
         <Route path="/departments/editDepartment">
           <EditDepartment currentDepartment={currentDepartment} />

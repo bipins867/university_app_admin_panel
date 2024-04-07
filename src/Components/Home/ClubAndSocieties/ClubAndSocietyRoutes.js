@@ -10,6 +10,7 @@ import ClubAndSocieties from "./ClubsAndSocieties";
 import ViewClubAndSociety from "./ViewClubAndSociety";
 import EditClubSociety from "./EditClubAndSociety";
 import AddClubAndSociety from "./AddClubAndSociety";
+import ClubSocietyPage from "./ViewClubAndSociety";
 
 export const ClubAndSocietyRoutes = (props) => {
   const [currentClubAndSociety, setCurrentClubAndSociety] = useState();
@@ -21,7 +22,7 @@ export const ClubAndSocietyRoutes = (props) => {
           <AddClubAndSociety />
         </Route>
         <Route path="/clubAndSocieties/viewClubAndSociety">
-          <ViewClubAndSociety currentClubAndSociety={currentClubAndSociety} />
+          <ClubSocietyPage clubSociety={currentClubAndSociety} />
         </Route>
         <Route path="/clubAndSocieties/editClubAndSociety">
           <EditClubSociety currentClubAndSociety={currentClubAndSociety} />
