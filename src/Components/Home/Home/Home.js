@@ -75,7 +75,16 @@ const HomePage = () => {
         console.log(err);
       });
   };
-  const handleDeleteImageSlide = (id) => {};
+  const handleDeleteImageSlide = (id) => {
+    globalController
+      .postData("home/delete/imageSlide", { imageSlideId: id }, {})
+      .then((data) => {
+        setCount(count + 1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   // Function to handle input change for Leader form
   const handleLeaderFormChange = (e) => {
     const { name, value, files } = e.target;
@@ -86,7 +95,16 @@ const HomePage = () => {
     }
   };
 
-  const handleDeleteLeader = (id) => {};
+  const handleDeleteLeader = (id) => {
+    globalController
+      .postData("home/delete/leader", { leaderId: id }, {})
+      .then((data) => {
+        setCount(count + 1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   // Function to handle form submission for Leader
   const handleLeaderFormSubmit = (e) => {

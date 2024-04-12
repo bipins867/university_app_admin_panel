@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Container, Table, Button } from "react-bootstrap";
 import { getAllClubsAndSocieties } from "../controller"; // Assuming you have a function to fetch clubs and societies
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
+import globalController from "../../GlobalController";
 
 const ClubsAndSocieties = (props) => {
   const setCurrentClubAndSociety = props.setCurrentClubAndSociety;
+  const [count, setCount] = useState(0);
   // Handle deletion of club/society
   const [clubAndSocieties, setClubAndSocieties] = useState([]);
 
@@ -16,9 +18,20 @@ const ClubsAndSocieties = (props) => {
       .catch((e) => {
         alert(e);
       });
-  }, []);
+  }, [count]);
   const handleDeleteClubOrSociety = (id) => {
-    // Add logic to delete club or society
+    globalController
+      .postData(
+        "clubAndSociety/delete/clubAndSociety",
+        { clubAndSocietyId: id },
+        {}
+      )
+      .then((data) => {
+        setCount(count + 1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -56,6 +69,14 @@ const ClubsAndSocieties = (props) => {
                 >
                   Edit
                 </NavLink>
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    handleDeleteClubOrSociety(clubOrSociety.id);
+                  }}
+                >
+                  Delete
+                </Button>
               </td>
             </tr>
           ))}

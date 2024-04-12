@@ -53,6 +53,16 @@ const CoursePage = ({ setCurrentCourse }) => {
       noOfYears: "",
     });
   };
+  const handleDeleteCourse = (id) => {
+    globalController
+      .postData("studyMaterials/delete/course", { courseId: id }, {})
+      .then((data) => {
+        setCount(count + 1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <Container className="mt-5">
@@ -93,6 +103,14 @@ const CoursePage = ({ setCurrentCourse }) => {
                 >
                   Edit
                 </NavLink>
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    handleDeleteCourse(course.id);
+                  }}
+                >
+                  Delete
+                </Button>
               </td>
             </tr>
           ))}

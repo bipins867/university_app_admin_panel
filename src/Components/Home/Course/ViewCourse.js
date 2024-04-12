@@ -43,7 +43,16 @@ const CourseViewPage = ({ basePath, course, setCurrentBranch }) => {
     const { name, value } = e.target;
     setBranchData({ ...branchData, [name]: value });
   };
-
+  const handleDeleteBranch = (id) => {
+    globalController
+      .postData("studyMaterials/delete/branch", { branchId: id }, {})
+      .then((data) => {
+        setCount(count + 1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     onAddBranch(branchData);
@@ -112,6 +121,14 @@ const CourseViewPage = ({ basePath, course, setCurrentBranch }) => {
                 >
                   Edit
                 </NavLink>
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    handleDeleteBranch(branch.id);
+                  }}
+                >
+                  Delete
+                </Button>
               </td>
             </tr>
           ))}

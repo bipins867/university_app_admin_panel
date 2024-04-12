@@ -3,7 +3,9 @@ import { Container, Table, Button, Form, Row, Col } from "react-bootstrap";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 
 import { getAllStudents } from "../controller";
+import globalController from "../../GlobalController";
 const Students = (props) => {
+  const [count, setCount] = useState(0);
   const [students, setStudents] = useState([]);
   const setCurrentStudent = props.setCurrentStudent;
 
@@ -15,15 +17,18 @@ const Students = (props) => {
       .catch((e) => {
         alert(e);
       });
-  }, []);
-  // Handle form submission to add new student
-  const handleAddStudent = () => {};
+  }, [count]);
 
-  // Handle deletion of student
-  const handleDeleteStudent = (id) => {};
-
-  // Handle search term change
-  const handleSearchTermChange = (e) => {};
+  const handleDeleteStudent = (id) => {
+    globalController
+      .postData("user/delete/student", { userId: id }, {})
+      .then((data) => {
+        setCount(count + 1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <Container className="mt-5">
@@ -70,6 +75,14 @@ const Students = (props) => {
                 >
                   Edit
                 </NavLink>
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    handleDeleteStudent(student.UserId);
+                  }}
+                >
+                  Delete
+                </Button>
               </td>
             </tr>
           ))}

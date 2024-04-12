@@ -53,6 +53,16 @@ const SemestePage = ({ basePath, semester, setCurrentSubject }) => {
       subTitle: "",
     });
   };
+  const handleDeleteSubject = (id) => {
+    globalController
+      .postData("studyMaterials/delete/subject", { subjectId: id }, {})
+      .then((data) => {
+        setCount(count + 1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <Container className="mt-5">
@@ -110,6 +120,14 @@ const SemestePage = ({ basePath, semester, setCurrentSubject }) => {
                 >
                   Edit
                 </NavLink>
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    handleDeleteSubject(subject.id);
+                  }}
+                >
+                  Delete
+                </Button>
               </td>
             </tr>
           ))}

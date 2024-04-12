@@ -10,7 +10,7 @@ const Notifications = (props) => {
   const history = useHistory();
   const token = useSelector((state) => state.auth.token);
   const setCurrentNotifiction = props.setCurrentNotifiction;
-
+  const [count, setCount] = useState(0);
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const Notifications = (props) => {
       .catch((e) => {
         alert(e);
       });
-  }, []);
+  }, [count]);
   // Handle deletion of notification
   const handleDeleteNotification = (id) => {
     globalController
@@ -32,7 +32,7 @@ const Notifications = (props) => {
       )
       .then((response) => {
         alert("Notification deleted!");
-        history.push("/notifications");
+        setCount(count + 1);
       })
       .catch((e) => {
         alert(e);

@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Container, Table, Button, Form, Row, Col } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { getAllAlumni } from "../controller";
+import globalController from "../../GlobalController";
 
 const Alumni = (props) => {
   const [alumnis, setAlumnis] = useState([]);
+  const [count, setCount] = useState(0);
 
   const setCurrentAlumni = props.setCurrentAlumni;
 
@@ -12,7 +14,16 @@ const Alumni = (props) => {
   const handleAddAlumni = () => {};
 
   // Handle deletion of alumni
-  const handleDeleteAlumni = (id) => {};
+  const handleDeleteAlumni = (id) => {
+    globalController
+      .postData("user/delete/alumni", { userId: id }, {})
+      .then((data) => {
+        setCount(count + 1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   // Handle search term change
   const handleSearchTermChange = (e) => {};
@@ -24,7 +35,7 @@ const Alumni = (props) => {
       .catch((e) => {
         alert(e);
       });
-  }, []);
+  }, [count]);
   return (
     <Container className="mt-5">
       <h2>Alumni</h2>
@@ -69,6 +80,14 @@ const Alumni = (props) => {
                 >
                   Edit
                 </NavLink>
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    handleDeleteAlumni(alumnus.UserId);
+                  }}
+                >
+                  Delete
+                </Button>
               </td>
             </tr>
           ))}

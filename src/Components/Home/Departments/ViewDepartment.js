@@ -41,6 +41,20 @@ const ViewDepartment = ({ department }) => {
       setCollegeId("");
     }
   };
+  const handleDeleteFaculty = (id) => {
+    globalController
+      .postData(
+        "department/delete/faculty",
+        { facultyId: id, departmentId: department.id },
+        {}
+      )
+      .then((data) => {
+        setCount(count + 1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <Container className="mt-5">
@@ -56,6 +70,7 @@ const ViewDepartment = ({ department }) => {
             <th>ID</th>
             <th>Name</th>
             <th>Designation</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -64,6 +79,16 @@ const ViewDepartment = ({ department }) => {
               <td>{faculty.id}</td>
               <td>{faculty.name}</td>
               <td>{faculty.designation}</td>
+              <td>
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    handleDeleteFaculty(faculty.id);
+                  }}
+                >
+                  Delete
+                </Button>
+              </td>
             </tr>
           ))}
         </tbody>

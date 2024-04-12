@@ -10,14 +10,17 @@ const SubjectPage = ({ basePath, subject, setCurrentPdf }) => {
     title: "",
     subTitle: "",
     isQuestionPaper: false,
+    pdfUrl: null,
   });
   const onAddPdf = (info) => {
+    const fileFormData = new FormData();
+
+    for (const key in info) {
+      fileFormData.append(key, info[key]);
+    }
+    fileFormData.append("subjectId", subject.id);
     globalController
-      .postData(
-        "studyMaterials/create/pdf",
-        { ...info, subjectId: subject.id },
-        {}
-      )
+      .postData("studyMaterials/create/pdf", fileFormData, {})
       .then((result) => {
         alert("Pdf Added!");
         setCount(count + 1);
@@ -41,11 +44,23 @@ const SubjectPage = ({ basePath, subject, setCurrentPdf }) => {
         alert(e);
       });
   }, [count]);
-
+  const handleFileChange = (e) => {
+    setPdfData({ ...pdfData, pdfUrl: e.target.files[0] });
+  };
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const val = type === "checkbox" ? checked : value;
     setPdfData({ ...pdfData, [name]: val });
+  };
+  const handleDeletePdf = (id) => {
+    globalController
+      .postData("studyMaterials/delete/pdf", { pdfId: id }, {})
+      .then((data) => {
+        setCount(count + 1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleSubmit = (e) => {
@@ -115,6 +130,14 @@ const SubjectPage = ({ basePath, subject, setCurrentPdf }) => {
                 >
                   Edit
                 </NavLink>
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    handleDeletePdf(pdf.id);
+                  }}
+                >
+                  Delete
+                </Button>
               </td>
             </tr>
           ))}
@@ -152,6 +175,17 @@ const SubjectPage = ({ basePath, subject, setCurrentPdf }) => {
             checked={pdfData.isQuestionPaper}
             onChange={handleChange}
             label="Is Question Paper"
+          />
+        </Form.Group>
+        <Form.Group controlId="pdfUrl">
+          <Form.Label>Pdf</Form.Label>
+          <Form.Control
+            type="file"
+            id="custom-file"
+            label="Choose file"
+            name="pdfUrl"
+            onChange={handleFileChange}
+            custom
           />
         </Form.Group>
         <Button variant="primary" type="submit">

@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Container, Table, Button } from "react-bootstrap";
 import { getAllDepartments } from "../controller"; // Assuming you have a function to fetch departments
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
+import globalController from "../../GlobalController";
 
 const Departments = (props) => {
   const setCurrentDepartment = props.setCurrentDepartment;
-
+  const [count, setCount] = useState(0);
   const [departments, setDepartments] = useState([]);
 
   useEffect(() => {
@@ -16,9 +17,16 @@ const Departments = (props) => {
       .catch((e) => {
         alert(e);
       });
-  }, []);
+  }, [count]);
   const handleDeleteDepartment = (id) => {
-    // Add logic to delete department
+    globalController
+      .postData("department/delete/department", { departmentId: id }, {})
+      .then((data) => {
+        setCount(count + 1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -56,6 +64,14 @@ const Departments = (props) => {
                 >
                   Edit
                 </NavLink>
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    handleDeleteDepartment(department.id);
+                  }}
+                >
+                  Delete
+                </Button>
               </td>
             </tr>
           ))}

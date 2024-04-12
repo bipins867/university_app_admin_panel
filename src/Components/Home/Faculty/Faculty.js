@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Container, Table, Button, Form, Row, Col } from "react-bootstrap";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 import { getAllFaculties } from "../controller";
+import globalController from "../../GlobalController";
 
 const Faculties = (props) => {
   const setCurrentFaculty = props.setCurrentFaculty;
   const [faculties, setFaculties] = useState([]);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     getAllFaculties()
@@ -15,13 +17,22 @@ const Faculties = (props) => {
       .catch((e) => {
         alert(e);
       });
-  }, []);
+  }, [count]);
 
   // Handle form submission to add new faculty
   const handleAddFaculty = () => {};
 
   // Handle deletion of faculty
-  const handleDeleteFaculty = (id) => {};
+  const handleDeleteFaculty = (id) => {
+    globalController
+      .postData("user/delete/faculty", { userId: id }, {})
+      .then((data) => {
+        setCount(count + 1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   // Handle search term change
   const handleSearchTermChange = (e) => {};
@@ -73,6 +84,14 @@ const Faculties = (props) => {
                 >
                   Edit
                 </NavLink>
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    handleDeleteFaculty(faculty.UserId);
+                  }}
+                >
+                  Delete
+                </Button>
               </td>
             </tr>
           ))}

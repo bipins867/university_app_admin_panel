@@ -68,6 +68,20 @@ const ClubSocietyPage = ({ clubSociety }) => {
       setNewMemberId("");
     }
   };
+  const handleDeleteStudent = (id) => {
+    globalController
+      .postData(
+        "clubAndSociety/delete/student",
+        { studentId: id, clubAndSocietyId: clubSociety.id },
+        {}
+      )
+      .then((data) => {
+        setCount(count + 1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <Container className="mt-5">
@@ -103,6 +117,14 @@ const ClubSocietyPage = ({ clubSociety }) => {
                   }
                 >
                   IS Admin
+                </Button>{" "}
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    handleDeleteStudent(member.id);
+                  }}
+                >
+                  Delete
                 </Button>
               </td>
             </tr>

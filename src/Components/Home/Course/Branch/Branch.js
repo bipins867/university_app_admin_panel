@@ -52,6 +52,16 @@ const BranchPage = ({ basePath, branch, setCurrentSemester }) => {
       subTitle: "",
     });
   };
+  const handleSemesterDelete = (id) => {
+    globalController
+      .postData("studyMaterials/delete/semester", { semesterId: id }, {})
+      .then((data) => {
+        setCount(count + 1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <Container className="mt-5">
@@ -109,6 +119,14 @@ const BranchPage = ({ basePath, branch, setCurrentSemester }) => {
                 >
                   Edit
                 </NavLink>
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    handleSemesterDelete(semester.id);
+                  }}
+                >
+                  Delete
+                </Button>
               </td>
             </tr>
           ))}
